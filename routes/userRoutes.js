@@ -22,7 +22,10 @@ router.post("/login", async (req, res) => {
     if (!user) return res.status(401).json({ message: "Invalid credentials" });
     res.json({ message: "Login successful" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    if (err.code === 11000) {
+     return res.status(400).json({ error: 'Username already exists' });
+   }
+   res.status(500).json({ error: err.message });
   }
 });
 
